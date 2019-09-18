@@ -22,7 +22,7 @@ def set_display(fig, ax):
     ax.set_ylim(0, 105)
 
     # ラベル
-    ax.set_xlabel("trial [times]")
+    ax.set_xlabel("trials [times]")
     ax.set_ylabel("distance [m]")
 
     # 目盛間隔
@@ -34,35 +34,26 @@ def set_display(fig, ax):
     ax.patch.set_alpha(0.0)
 
 
+def plot_series(ax, trials,  begin, end, step, marker_begin, marker_end):
+    y = np.arange(begin, end, step)
+    x = np.arange(trials, trials+len(y), dtype="int")
+    ax.scatter(x, y, marker=marker_begin, color="royalblue")
+    ax.scatter(trials+len(y), end, marker=marker_end, color="royalblue")
+    return len(y) + 1
+
+
 def main():
     # データ
-    trial = 1
+    trials = 1
     step = 5
-
-    y1 = np.arange(5, 40, step)
-    x1 = np.arange(trial, trial+len(y1), dtype="int")
-    trial += len(y1)
-
-    y2 = np.arange(100, 30, -step)
-    x2 = np.arange(trial, trial+len(y2), dtype="int")
-    trial += len(y2) 
-
-    y3 = np.arange(5, 45, step)
-    x3 = np.arange(trial, trial+len(y3), dtype="int")
-    trial += len(y3)
-
-    y4 = np.arange(100, 25, -step)
-    x4 = np.arange(trial, trial+len(y4), dtype="int")
-    trial += len(y4) 
-
 
     # プロット
     fig = plt.figure()
     ax = fig.add_subplot(1,1,1)
-    ax.scatter(x1, y1, marker="o", color="royalblue")
-    ax.scatter(x2, y2, marker="x", color="royalblue")
-    ax.scatter(x3, y3, marker="o", color="royalblue")
-    ax.scatter(x4, y4, marker="x", color="royalblue")
+    trials += plot_series(ax, trials, 5, 45, step, "x", "o")
+    trials += plot_series(ax, trials, 100, 30, -step, "o", "x")
+    trials += plot_series(ax, trials, 5, 40, step, "x", "o")
+    trials += plot_series(ax, trials, 100, 30, -step, "o", "x")
 
     # 表示設定
     set_display(fig, ax)
